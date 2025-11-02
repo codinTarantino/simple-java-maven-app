@@ -10,13 +10,13 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh 'mvn clean compile'
+                bat 'mvn clean compile'
             }
         }
 
         stage('Unit Test') {
             steps {
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
 
@@ -26,20 +26,23 @@ pipeline {
             }
             steps {
                 echo 'Running SonarQube analysis...'
+                // Example if SonarQube installed:
+                // bat 'mvn sonar:sonar'
             }
         }
 
         stage('Package') {
             steps {
-                sh 'mvn package'
+                bat 'mvn package'
             }
         }
 
         stage('Deploy') {
             steps {
                 echo 'Deploying application...'
-                sh 'cp target/simple-java-maven-app-1.0-SNAPSHOT.jar /tmp/'
-                echo 'Application deployed successfully to /tmp/'
+                bat 'mkdir target\\deploy'
+                bat 'copy target\\simple-java-maven-app-1.0-SNAPSHOT.jar target\\deploy\\'
+                echo 'Application deployed successfully to target\\deploy\\'
             }
         }
     }
